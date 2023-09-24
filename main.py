@@ -7,7 +7,7 @@ from github import Auth
 
 try:
     # using an access token
-    auth = Auth.Token("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")
+    auth = Auth.Token("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")
     # Connect to the repository
     g = Github(auth=auth)
     user = g.get_user()
