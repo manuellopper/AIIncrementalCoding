@@ -43,7 +43,7 @@ try:
     # Invoke the ChatGPT API
     openai.api_key = "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"
     response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
+      model="gpt-4",
       messages=[
             {"role": "system", "content": "utiliza el código siguiente como base y genera código incremental sobre el mismo que contenga la funcionalidad indicada por el usuario"},
             {"role": "user", "content": file_content},
