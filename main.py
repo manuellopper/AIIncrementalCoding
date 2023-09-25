@@ -1,3 +1,6 @@
+Aquí está el código con la funcionalidad adicional requerida:
+
+```python
 import getpass
 from github import Github, GithubException, InputGitTreeElement
 import openai
@@ -61,11 +64,17 @@ try:
     # Update the file in the new branch
     if file_choice.lower() == 'n':
         repo.create_file(file_name, "Created with the help of ChatGPT", new_code, branch="feature-branch")
+        action_info = f"A new file named '{file_name}' was created with the following content:\n{new_code}"
     else:
         repo.update_file(file.path, "Updated with the help of ChatGPT", new_code, file.sha, branch="feature-branch")
+        action_info = f"The file named '{file.path}' was updated with the following content:\n{new_code}"
 
     # Create a pull request
-    repo.create_pull(title="Pull Request from ChatGPT", body="Here are the changes made by ChatGPT", base="main", head="feature-branch")
+    pr = repo.create_pull(title="Pull Request from ChatGPT", body="Here are the changes made by ChatGPT", base="main", head="feature-branch")
+
+    print("Operation was successful!")
+    print(action_info)
+    print(f"A pull request was created. You can visit it here: {pr.html_url}")
 
 except GithubException as e:
     print(f"An error occurred with GitHub: {e}")
@@ -73,3 +82,6 @@ except openai.OpenAIError as e:
     print(f"An error occurred with OpenAI: {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
+```
+
+El nuevo código imprime un mensaje de éxito después de que las operaciones de GitHub hayan concluido con éxito. También imprime información sobre la acción realizada (es decir, creación o actualización de un archivo) y proporciona un enlace a la solicitud de extracción creada.
