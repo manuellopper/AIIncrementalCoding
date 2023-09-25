@@ -60,12 +60,12 @@ try:
 
     # Update the file in the new branch
     if file_choice.lower() == 'n':
-        repo.create_file(file_name, "Created with the help of ChatGPT", new_code, branch="feature-branch")
+        repo.create_file(file_name, "Created with the help of ChatGPT", new_code, branch="new_branch")
     else:
-        repo.update_file(file.path, "Updated with the help of ChatGPT", new_code, file.sha, branch="feature-branch")
+        repo.update_file(file.path, "Updated with the help of ChatGPT", new_code, file.sha, branch="new_branch")
 
     # Create a pull request
-    repo.create_pull(title="Pull Request from ChatGPT", body="Here are the changes made by ChatGPT", base="main", head="feature-branch")
+    repo.create_pull(title="Pull Request from ChatGPT", body="Here are the changes made by ChatGPT", base="main", head="new_branch")
 
 except GithubException as e:
     print(f"An error occurred with GitHub: {e}")
