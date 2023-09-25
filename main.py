@@ -1,7 +1,10 @@
+
 import getpass
 from github import Github, GithubException, InputGitTreeElement
 import openai
 from config import api_key_openai, api_key_github
+import random
+import string
 
 # Authentication is defined via github.Auth
 from github import Auth
@@ -49,23 +52,34 @@ try:
             {"role": "system", "content": "utiliza el código siguiente como base y genera código incremental sobre el mismo que contenga la funcionalidad indicada por el usuario. En la respuesta escribe solo codigo, no realices ninguna aclaracion ni antes ni despues de este"},
             {"role": "user", "content": file_content},
             {"role": "user", "content": prompt}
-        ]
+        ],
+      temperature=0
     )
 
     new_code = response['choices'][0]['message']['content'].strip()
 
     # Create a new branch
     source_branch = repo.get_branch("main")
-    repo.create_git_ref(ref=f"refs/heads/new_branch", sha=source_branch.commit.sha)
+    branch_name = "new_branch"
+    while True:
+        try:
+            repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=source_branch.commit.sha)
+            break
+        except GithubException:
+            branch_name = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
+
+    print(f"New branch created: {branch_name}")
 
     # Update the file in the new branch
     if file_choice.lower() == 'n':
-        repo.create_file(file_name, "Created with the help of ChatGPT", new_code, branch="new_branch")
+        repo.create_file(file_name, "Created with the help of ChatGPT", new_code, branch=branch_name)
     else:
-        repo.update_file(file.path, "Updated with the help of ChatGPT", new_code, file.sha, branch="new_branch")
+        repo.update_file(file.path, "Updated with the help of ChatGPT", new_code, file.sha, branch=branch_name)
 
     # Create a pull request
-    repo.create_pull(title="Pull Request from ChatGPT", body="Here are the changes made by ChatGPT", base="main", head="new_branch")
+    repo.create_pull(title="Pull Request from ChatGPT", body="Here are the changes made by ChatGPT", base="main", head=branch_name)
+
+    print("Success! The operations were completed successfully.")
 
 except GithubException as e:
     print(f"An error occurred with GitHub: {e}")
@@ -73,3 +87,4 @@ except openai.OpenAIError as e:
     print(f"An error occurred with OpenAI: {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
+
