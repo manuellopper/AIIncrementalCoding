@@ -1,13 +1,14 @@
 import getpass
 from github import Github, GithubException, InputGitTreeElement
 import openai
+from config import api_key_openai, api_key_github
 
 # Authentication is defined via github.Auth
 from github import Auth
 
 try:
     # using an access token
-    auth = Auth.Token("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")
+    auth = Auth.Token(api_key_github)
     # Connect to the repository
     g = Github(auth=auth)
     user = g.get_user()
@@ -41,7 +42,7 @@ try:
     prompt = input("How can the AI help you write code? ")
 
     # Invoke the ChatGPT API
-    openai.api_key = "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"
+    openai.api_key = api_key_openai
     response = openai.ChatCompletion.create(
       model="gpt-4",
       messages=[
