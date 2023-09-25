@@ -46,7 +46,7 @@ try:
     response = openai.ChatCompletion.create(
       model="gpt-4",
       messages=[
-            {"role": "system", "content": "utiliza el código siguiente como base y genera código incremental sobre el mismo que contenga la funcionalidad indicada por el usuario. En la respuesta escribe solo codigo, no realicea ninguna aclaracion ni antes ni despues de este"},
+            {"role": "system", "content": "utiliza el código siguiente como base y genera código incremental sobre el mismo que contenga la funcionalidad indicada por el usuario. En la respuesta escribe solo codigo, no realices ninguna aclaracion ni antes ni despues de este"},
             {"role": "user", "content": file_content},
             {"role": "user", "content": prompt}
         ]
