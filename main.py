@@ -46,7 +46,7 @@ try:
     response = openai.ChatCompletion.create(
       model="gpt-4",
       messages=[
-            {"role": "system", "content": "utiliza el código siguiente como base y genera código incremental sobre el mismo que contenga la funcionalidad indicada por el usuario"},
+            {"role": "system", "content": "utiliza el código siguiente como base y genera código incremental sobre el mismo que contenga la funcionalidad indicada por el usuario. En la respuesta escribe solo codigo, no realices ninguna aclaracion ni antes ni despues de este"},
             {"role": "user", "content": file_content},
             {"role": "user", "content": prompt}
         ]
@@ -56,7 +56,7 @@ try:
 
     # Create a new branch
     source_branch = repo.get_branch("main")
-    repo.create_git_ref(ref=f"refs/heads/feature-branch", sha=source_branch.commit.sha)
+    repo.create_git_ref(ref=f"refs/heads/new_branch", sha=source_branch.commit.sha)
 
     # Update the file in the new branch
     if file_choice.lower() == 'n':
