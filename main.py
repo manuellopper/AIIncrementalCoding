@@ -56,7 +56,7 @@ try:
 
     # Create a new branch
     source_branch = repo.get_branch("main")
-    repo.create_git_ref(ref=f"refs/heads/feature-branch", sha=source_branch.commit.sha)
+    repo.create_git_ref(ref=f"refs/heads/new_branch", sha=source_branch.commit.sha)
 
     # Update the file in the new branch
     if file_choice.lower() == 'n':
