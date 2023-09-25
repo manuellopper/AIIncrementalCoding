@@ -1,4 +1,3 @@
-
 import getpass
 from github import Github, GithubException, InputGitTreeElement
 import openai
@@ -81,10 +80,19 @@ try:
 
     print("Success! The operations were completed successfully.")
 
+    # Provide a summary of the tasks performed
+    print("\nSummary of tasks performed:")
+    print(f"1. Connected to the repository: {repo.name}")
+    print(f"2. Created a new branch: {branch_name}")
+    if file_choice.lower() == 'n':
+        print(f"3. Created a new file: {file_name}")
+    else:
+        print(f"3. Updated the existing file: {file.path}")
+    print("4. Created a pull request")
+
 except GithubException as e:
     print(f"An error occurred with GitHub: {e}")
 except openai.OpenAIError as e:
     print(f"An error occurred with OpenAI: {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
-
