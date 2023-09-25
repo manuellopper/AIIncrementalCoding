@@ -7,7 +7,7 @@ from github import Auth
 
 try:
     # using an access token
-    auth = Auth.Token("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")
+    auth = Auth.Token("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")
     # Connect to the repository
     g = Github(auth=auth)
     user = g.get_user()
@@ -41,7 +41,7 @@ try:
     prompt = input("How can the AI help you write code? ")
 
     # Invoke the ChatGPT API
-    openai.api_key = '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'
+    openai.api_key = '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'
     response = openai.ChatCompletion.create(
       model="gpt-3.5-turbo",
       messages=[
