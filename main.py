@@ -41,24 +41,8 @@ try:
       temperature=0
     )
     new_code = response['choices'][0]['message']['content'].strip()
-    code_lines = []
-    text_lines = []
-    in_code_block = False
-    for line in new_code.split('\n'):
-        if '```python' in line:
-            in_code_block = True
-            continue
-        elif '```' in line:
-            in_code_block = False
-            continue
-        if in_code_block:
-            code_lines.append(line)
-        else:
-            text_lines.append(line)
-    new_code = '\n'.join(code_lines)
-    text_content = '\n'.join(text_lines)
-    print("Text content:")
-    print(text_content)
+    
+    
     source_branch = repo.get_branch("main")
     branch_name = "new_branch"
     while True:
