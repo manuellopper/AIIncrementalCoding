@@ -1,6 +1,4 @@
-Para implementar la funcionalidad solicitada, necesitamos extraer el contenido del código entre los marcadores <python> y </python> de la respuesta de la API de OpenAI. Podemos hacer esto utilizando expresiones regulares (regex) para buscar y extraer el contenido entre estos marcadores. Aquí está el código modificado:
 
-<python>
 # Importando las bibliotecas necesarias
 import getpass
 from github import Github, GithubException, InputGitTreeElement
@@ -102,4 +100,3 @@ except openai.OpenAIError as e:
     print(f"An error occurred with OpenAI: {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
-</python>
