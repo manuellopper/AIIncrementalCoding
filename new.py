@@ -1,0 +1,1 @@
+Lo siento, pero necesito más detalles para poder ayudarte. ¿Podrías proporcionar el código base y la funcionalidad que deseas agregar?
