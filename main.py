@@ -1,4 +1,4 @@
-```python
+
 import getpass
 from github import Github, GithubException, InputGitTreeElement
 import openai
@@ -88,4 +88,3 @@ except openai.OpenAIError as e:
     print(f"An error occurred with OpenAI: {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
-```
