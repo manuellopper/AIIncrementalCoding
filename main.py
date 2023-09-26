@@ -4,6 +4,7 @@ import openai
 from config import api_key_openai, api_key_github
 import random
 import string
+import re
 
 # Authentication is defined via github.Auth
 from github import Auth
@@ -56,6 +57,22 @@ try:
     )
 
     new_code = response['choices'][0]['message']['content'].strip()
+
+    # Separate code and text
+    code_lines = []
+    text_lines = []
+    for line in new_code.split('\n'):
+        if re.match(r'^\s*#', line) or re.match(r'^\s*$', line):
+            text_lines.append(line)
+        else:
+            code_lines.append(line)
+
+    new_code = '\n'.join(code_lines)
+    text_content = '\n'.join(text_lines)
+
+    # Print the text content
+    print("Text content:")
+    print(text_content)
 
     # Create a new branch
     source_branch = repo.get_branch("main")
