@@ -1,3 +1,6 @@
+Para implementar la funcionalidad solicitada, necesitamos extraer el contenido del código entre los marcadores <python> y </python> de la respuesta de la API de OpenAI. Podemos hacer esto utilizando expresiones regulares (regex) para buscar y extraer el contenido entre estos marcadores. Aquí está el código modificado:
+
+<python>
 # Importando las bibliotecas necesarias
 import getpass
 from github import Github, GithubException, InputGitTreeElement
@@ -57,7 +60,10 @@ try:
         ],
       temperature=0
     )
-    new_code = response['choices'][0]['message']['content'].strip()
+    full_response = response['choices'][0]['message']['content'].strip()
+
+    # Extracting the code between the <python> and </python> markers
+    new_code = re.search('<python>(.*?)</python>', full_response, re.DOTALL).group(1).strip()
 
     # Creando una nueva rama en el repositorio
     source_branch = repo.get_branch("main")
@@ -96,3 +102,4 @@ except openai.OpenAIError as e:
     print(f"An error occurred with OpenAI: {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
+</python>
