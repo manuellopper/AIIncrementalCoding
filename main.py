@@ -67,7 +67,7 @@ try:
             repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=source_branch.commit.sha)
             break
         except GithubException:
-            branch_name = 'new_branch'.join(random.choices(string.ascii_lowercase + string.digits, k=3))
+            branch_name = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
 
     # Creando o actualizando el archivo con el nuevo código
     if file_choice.lower() == 'n':
