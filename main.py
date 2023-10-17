@@ -8,6 +8,7 @@ import random
 import string
 import re
 from github import Auth
+import json
 
 try:
     # Autenticación en GitHub
@@ -47,21 +48,31 @@ try:
 
     # Autenticación en OpenAI
     openai.api_key = api_key_openai
+    
+    system_msg = "Responde en el siguiente formato: { \"code\":\"Código generado\", \"comments\":\"comentarios sobre la acción realizada y el código generado\", }"
+
+    if file_choice.lower() == 'e':
+        user_msg= f"Tu tarea es reescribir el código python facilitado teniendo en cuenta una serie de instrucciones. \n 1. El código es: \n {file_content} \n 2. Las instrucciones para reescribir el código son:\n {prompt}"
+    else:
+        user_msg= f"Tu tarea es escribir un código en python teniendo en cuenta una serie de instrucciones. \n 1. Las instrucciones para escribir el código son:\n {prompt}"
+
 
     # Generando código con la ayuda de la IA
     response = openai.ChatCompletion.create(
       model="gpt-4",
       messages=[
-            {"role": "system", "content": "utiliza el código siguiente como base y genera código incremental sobre el mismo que contenga la funcionalidad indicada por el usuario. En la respuesta, cuando vayas a escribir el código en python precede éste con <python>  y utiliza </python> para terminar el bloque de código. "},
-            {"role": "user", "content": file_content},
-            {"role": "user", "content": prompt}
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg}            
         ],
       temperature=0
     )
     full_response = response['choices'][0]['message']['content'].strip()
+    dict_response= json.loads(full_response)
+    new_code= dict_response["code"]
+    comments = dict_response["comments"]
 
-    # Extracting the code between the <python> and </python> markers
-    new_code = re.search('<python>(.*?)</python>', full_response, re.DOTALL).group(1).strip()
+    print(f"El codigo:\n {new_code}")
+    print(f"\nLos comentarios:\n {comments}")
 
     # Creando una nueva rama en el repositorio
     source_branch = repo.get_branch("main")
