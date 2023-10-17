@@ -1,4 +1,3 @@
-
 # Importando las bibliotecas necesarias
 import getpass
 from github import Github, GithubException, InputGitTreeElement
@@ -9,6 +8,8 @@ import string
 import re
 from github import Auth
 import json
+from aux import swap_quotes
+
 
 try:
     # Autenticación en GitHub
@@ -49,7 +50,7 @@ try:
     # Autenticación en OpenAI
     openai.api_key = api_key_openai
     
-    system_msg = "Responde en el siguiente formato: { \"code\":\"Código generado\", \"comments\":\"comentarios sobre la acción realizada y el código generado\", }"
+    system_msg = "Responde en el siguiente formato: { 'code':'Código generado. Escibe el código de manera directa, sin ningún texto ni de inicio ni de fin', 'comments':'comentarios sobre la acción realizada y el código generado' }"
 
     if file_choice.lower() == 'e':
         user_msg= f"Tu tarea es reescribir el código python facilitado teniendo en cuenta una serie de instrucciones. \n 1. El código es: \n {file_content} \n 2. Las instrucciones para reescribir el código son:\n {prompt}"
@@ -66,9 +67,14 @@ try:
         ],
       temperature=0
     )
+    
     full_response = response['choices'][0]['message']['content'].strip()
+    full_response=swap_quotes(full_response)
+    
     dict_response= json.loads(full_response)
+    
     new_code= dict_response["code"]
+    
     comments = dict_response["comments"]
 
     print(f"El codigo:\n {new_code}")
